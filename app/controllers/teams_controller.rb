@@ -9,13 +9,15 @@ class TeamsController < ApplicationController
   def show
     @working_team = @team
     change_keep_team(current_user, @team)
+    # binding.pry
   end
 
   def new
     @team = Team.new
   end
 
-  def edit; end
+  def edit
+  end
 
   def create
     @team = Team.new(team_params)
@@ -39,8 +41,8 @@ class TeamsController < ApplicationController
   end
 
   def destroy
-    @team.destroy
-    redirect_to teams_url, notice: I18n.t('views.messages.delete_team')
+      @team.destroy
+      redirect_to teams_url, notice: I18n.t('views.messages.delete_team')
   end
 
   def dashboard
