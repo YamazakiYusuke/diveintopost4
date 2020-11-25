@@ -29,7 +29,7 @@
     <nav class="mt-2">
       <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
         <% @working_team.agendas.each do |agenda| %>
-          <% if current_user.id == agenda.user.id || current_user.id == agenda.team.owner_id %>
+          <% if current_user.id == agenda.user_id || current_user.id == agenda.team.owner_id %>
             <object><%= link_to '削除', agenda_path(agenda), method: :delete, data: { confirm: '本当に削除してよろしいですか？' } %></object>
           <% end %>
           <li class="nav-item has-treeview menu-open">
