@@ -24,6 +24,7 @@ class AgendasController < ApplicationController
   def destroy
     if  Agenda.find(params[:id].to_i).user_id == current_user.id ||  Team.find(Agenda.find(params[:id].to_i).team_id).owner_id == current_user.id
       @agenda.destroy
+      ChengeOwnerMailer.destroy_agenda_mail(@agenda,@agenda.team).deliver
       redirect_to dashboard_url, notice: 'アジェンダを削除しました'
     else
       redirect_to dashboard_url, notice: 'アジェンダを削除する権限がありません'
