@@ -9,7 +9,6 @@ class TeamsController < ApplicationController
   def show
     @working_team = @team
     change_keep_team(current_user, @team)
-    # binding.pry
   end
 
   def new
@@ -41,18 +40,29 @@ class TeamsController < ApplicationController
   end
 
   def destroy
-      @team.destroy
-      redirect_to teams_url, notice: I18n.t('views.messages.delete_team')
+    @team.destroy
+    redirect_to teams_url, notice: I18n.t('views.messages.delete_team')
   end
 
   def dashboard
     @team = current_user.keep_team_id ? Team.find(current_user.keep_team_id) : current_user.teams.first
   end
 
+  def changeowner
+    team = Team.find(Assign.find(params[:id]).team_id)
+    if team.update(owner_id: Assign.find(params[:id]).user_id)
+      new_owner = User.find(Assign.find(params[:id]).user_id)
+      ChengeOwnerMailer.change_owner_mail(new_owner.email,team.name).deliver
+      redirect_to team_url(team.id), notice:"管理者が変更されました"
+    else
+      redirect_to team_url(team.id), notice:"管理者の変更に失敗しました"
+    end
+  end
+
   private
 
   def set_team
-    @team = Team.friendly.find(params[:id])
+    @team = Team.friendly.find(params[:id]) 
   end
 
   def team_params
