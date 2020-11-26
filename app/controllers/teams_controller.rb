@@ -9,7 +9,6 @@ class TeamsController < ApplicationController
   def show
     @working_team = @team
     change_keep_team(current_user, @team)
-    binding.pry
   end
 
   def new
